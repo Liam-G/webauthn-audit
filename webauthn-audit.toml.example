@@ -1,0 +1,12 @@
+[policy]
+profile = "passkey"
+rp_id = "login.example.com"
+origins = ["https://login.example.com"]
+require_user_verification = true
+require_discoverable_credentials = true
+allow_cross_origin = false
+allow_related_origins = false
+allowed_algorithms = [-7, -8, -257]
+allowed_attestation_formats = ["none", "packed", "apple"]
+fail_on = "medium"
+suppress = []

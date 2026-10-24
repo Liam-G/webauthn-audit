@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Liam-G/webauthn-audit/raw/main/schemas/ceremony-envelope.schema.json",
+  "title": "webauthn-audit ceremony envelope",
+  "type": "object",
+  "properties": {
+    "creationOptions": {"$ref": "#/$defs/optionsWrapper"},
+    "requestOptions": {"$ref": "#/$defs/optionsWrapper"},
+    "options": {"$ref": "#/$defs/optionsWrapper"},
+    "credential": {"$ref": "#/$defs/credential"},
+    "expected": {
+      "type": "object",
+      "properties": {
+        "rpId": {"type": "string", "minLength": 1},
+        "origin": {"type": "string", "format": "uri"},
+        "origins": {
+          "type": "array",
+          "items": {"type": "string", "format": "uri"},
+          "uniqueItems": true
+        },
+        "requireUserVerification": {"type": "boolean"},
+        "previousSignCount": {"type": "integer", "minimum": 0, "maximum": 4294967295},
+        "backupEligible": {"type": "boolean"},
+        "userHandle": {"$ref": "#/$defs/base64url"},
+        "relatedOriginsValidated": {"type": "boolean"}
+      },
+      "additionalProperties": false
+    }
+  },
+  "oneOf": [
+    {"required": ["creationOptions", "credential"]},
+    {"required": ["requestOptions", "credential"]},
+    {"required": ["options", "credential"]}
+  ],
+  "required": ["expected"],
+  "additionalProperties": false,
+  "$defs": {
+    "base64url": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_-]+={0,2}$"
+    },
+    "optionsWrapper": {
+      "oneOf": [
+        {"$ref": "#/$defs/options"},
+        {
+          "type": "object",
+          "properties": {"publicKey": {"$ref": "#/$defs/options"}},
+          "required": ["publicKey"],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "options": {
+      "type": "object",
+      "properties": {"challenge": {"$ref": "#/$defs/base64url"}},
+      "required": ["challenge"],
+      "additionalProperties": true
+    },
+    "credential": {
+      "type": "object",
+      "properties": {
+        "id": {"$ref": "#/$defs/base64url"},
+        "rawId": {"$ref": "#/$defs/base64url"},
+        "type": {"const": "public-key"},
+        "authenticatorAttachment": {"enum": ["platform", "cross-platform", null]},
+        "response": {"type": "object"},
+        "clientExtensionResults": {"type": "object"}
+      },
+      "required": ["id", "rawId", "type", "response"],
+      "additionalProperties": true
+    }
+  }
+}

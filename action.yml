@@ -1,0 +1,43 @@
+name: WebAuthn Audit
+description: Audit WebAuthn/passkey artifacts and upload SARIF
+inputs:
+  artifacts:
+    description: Space-separated JSON artifact paths
+    required: true
+  profile:
+    description: baseline, passkey, or high-assurance
+    default: passkey
+  fail-on:
+    description: info, low, medium, high, or critical
+    default: medium
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      run: python -m pip install "${{ github.action_path }}"
+    - id: audit
+      shell: bash
+      env:
+        WEBAUTHN_ARTIFACTS: ${{ inputs.artifacts }}
+        WEBAUTHN_PROFILE: ${{ inputs.profile }}
+        WEBAUTHN_FAIL_ON: ${{ inputs.fail-on }}
+      run: |
+        read -r -a artifact_paths <<< "$WEBAUTHN_ARTIFACTS"
+        set +e
+        webauthn-audit lint "${artifact_paths[@]}" \
+          --profile "$WEBAUTHN_PROFILE" \
+          --fail-on "$WEBAUTHN_FAIL_ON" \
+          --format sarif \
+          --output webauthn-audit.sarif
+        audit_exit=$?
+        set -e
+        echo "exit-code=$audit_exit" >> "$GITHUB_OUTPUT"
+    - uses: github/codeql-action/upload-sarif@v3
+      if: always() && hashFiles('webauthn-audit.sarif') != ''
+      with:
+        sarif_file: webauthn-audit.sarif
+        category: webauthn-audit
+    - shell: bash
+      env:
+        WEBAUTHN_AUDIT_EXIT: ${{ steps.audit.outputs.exit-code }}
+      run: exit "$WEBAUTHN_AUDIT_EXIT"

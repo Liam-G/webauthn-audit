@@ -1,0 +1,25 @@
+{
+  "publicKey": {
+    "challenge": "c2hvcnQ",
+    "rp": {
+      "id": "example.com",
+      "name": "Example"
+    },
+    "user": {
+      "id": "dXNlckBleGFtcGxlLmNvbQ",
+      "name": "user@example.com",
+      "displayName": "Example User"
+    },
+    "pubKeyCredParams": [
+      {"type": "public-key", "alg": -65535}
+    ],
+    "timeout": 10000,
+    "authenticatorSelection": {
+      "residentKey": "discouraged",
+      "requireResidentKey": true,
+      "userVerification": "discouraged"
+    },
+    "attestation": "enterprise",
+    "hints": ["built-in"]
+  }
+}

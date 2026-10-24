@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: If you use this software in research or an audit, please cite it as below.
+title: webauthn-audit
+type: software
+authors:
+  - family-names: Giannini
+    given-names: Liam
+repository-code: https://github.com/Liam-G/webauthn-audit
+url: https://github.com/Liam-G/webauthn-audit
+license: MIT
+version: 0.1.0
+date-released: 2026-10-25

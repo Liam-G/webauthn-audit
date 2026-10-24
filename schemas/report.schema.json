@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Liam-G/webauthn-audit/raw/main/schemas/report.schema.json",
+  "title": "webauthn-audit JSON report",
+  "type": "object",
+  "required": ["schemaVersion", "tool", "profile", "artifacts", "summary", "observations", "findings"],
+  "properties": {
+    "schemaVersion": {"const": "1.0"},
+    "tool": {
+      "type": "object",
+      "required": ["name", "version"],
+      "properties": {
+        "name": {"const": "webauthn-audit"},
+        "version": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "profile": {"enum": ["baseline", "passkey", "high-assurance"]},
+    "artifacts": {"type": "array", "items": {"type": "string"}},
+    "summary": {
+      "type": "object",
+      "required": ["total", "bySeverity"],
+      "properties": {
+        "total": {"type": "integer", "minimum": 0},
+        "bySeverity": {
+          "type": "object",
+          "required": ["info", "low", "medium", "high", "critical"],
+          "additionalProperties": {"type": "integer", "minimum": 0}
+        }
+      }
+    },
+    "observations": {"type": "object"},
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["ruleId", "title", "severity", "message", "location", "evidence", "remediation", "references", "fingerprint"],
+        "properties": {
+          "ruleId": {"pattern": "^WAC-[0-9]{3}$"},
+          "title": {"type": "string"},
+          "severity": {"enum": ["info", "low", "medium", "high", "critical"]},
+          "message": {"type": "string"},
+          "location": {
+            "type": "object",
+            "required": ["artifact", "pointer"],
+            "properties": {
+              "artifact": {"type": "string"},
+              "pointer": {"type": "string"}
+            },
+            "additionalProperties": false
+          },
+          "evidence": {"type": "object"},
+          "remediation": {"type": "string"},
+          "references": {"type": "array"},
+          "fingerprint": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

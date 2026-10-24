@@ -1,0 +1,24 @@
+name: Rule request
+description: Propose a standards-backed WebAuthn or passkey check
+title: "[rule] "
+labels: [enhancement, rule]
+body:
+  - type: input
+    id: source
+    attributes:
+      label: Primary specification URL
+      placeholder: https://www.w3.org/TR/webauthn-3/#...
+    validations:
+      required: true
+  - type: textarea
+    id: unsafe
+    attributes:
+      label: Unsafe or non-conforming behavior
+    validations:
+      required: true
+  - type: textarea
+    id: acceptable
+    attributes:
+      label: Acceptable behavior and likely false positives
+    validations:
+      required: true

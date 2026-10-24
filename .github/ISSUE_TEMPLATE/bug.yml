@@ -1,0 +1,41 @@
+name: Bug report
+description: Report an incorrect finding, parser failure, or interoperability issue
+title: "[bug] "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Do not attach production WebAuthn captures or identifying credential material.
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      placeholder: webauthn-audit 0.1.0
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      options:
+        - False positive
+        - False negative
+        - Parser failure
+        - Output or SARIF issue
+        - Compatibility issue
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal sanitized reproduction
+      description: Replace all challenges, IDs, handles, signatures, keys, and certificates.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior and specification reference
+    validations:
+      required: true
