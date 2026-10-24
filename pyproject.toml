@@ -25,9 +25,9 @@ dependencies = ["tomli>=2.2,<3; python_version < '3.11'"]
 
 [project.optional-dependencies]
 dev = [
-  "mypy>=1.13,<2",
-  "pytest>=8.3,<9",
-  "pytest-cov>=6,<7",
+  "mypy>=1.13,<3",
+  "pytest>=8.3,<10",
+  "pytest-cov>=6,<8",
   "ruff>=0.8,<1",
   "tomli>=2.2,<3",
 ]
